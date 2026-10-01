@@ -99,6 +99,27 @@
       box-shadow: 0 10px 30px -10px rgba(245, 158, 11, 0.25);
     }
 
+    /* Password Auth Screen Animations */
+    @keyframes authShake {
+      0%, 100% { transform: translateX(0); }
+      15%, 45%, 75% { transform: translateX(-9px); }
+      30%, 60%, 90% { transform: translateX(9px); }
+    }
+    .animate-auth-shake {
+      animation: authShake 0.45s ease-in-out;
+    }
+    @keyframes earthGlowPulse {
+      0%, 100% {
+        box-shadow: 0 0 35px rgba(245, 158, 11, 0.25), inset 0 0 25px rgba(245, 158, 11, 0.15);
+      }
+      50% {
+        box-shadow: 0 0 70px rgba(16, 185, 129, 0.4), inset 0 0 35px rgba(16, 185, 129, 0.25);
+      }
+    }
+    .earth-glow-box {
+      animation: earthGlowPulse 4s ease-in-out infinite;
+    }
+
     /* Developer Card & Pulse Glow */
     .dev-card {
       border: 1px solid rgba(245, 158, 11, 0.45);
@@ -224,66 +245,127 @@
     <div id="bgEarthCanvas" class="w-full h-full"></div>
   </div>
 
-  <!-- 1. BOOT LOADING SCREEN ANIMASI BUMI 3D BERPUTAR DENGAN WAKTU REAL-TIME -->
-  <script>
-    (function() {
-      function autoDismissLoading() {
-        var el = document.getElementById('loadingOverlay');
-        if (el && el.style.display !== 'none') {
-          el.style.pointerEvents = 'none';
-          el.style.transition = 'opacity 0.4s ease';
-          el.style.opacity = '0';
-          setTimeout(function() { el.style.display = 'none'; }, 400);
-        }
-      }
-      setTimeout(autoDismissLoading, 1500);
-      window.addEventListener('load', function() { setTimeout(autoDismissLoading, 600); });
-    })();
-  </script>
+  <!-- 1. ANIMASI PASSWORD & LOGIN GATEKEEPER DENGAN BUMI NYATA & AWAN 3D (THREE.JS) -->
+  <div id="authOverlay" class="fixed inset-0 z-[10000] bg-slate-950/95 text-white flex flex-col justify-between p-4 sm:p-6 overflow-y-auto select-none no-print transition-all duration-500">
+    
+    <!-- Top Header: Clock & Badges -->
+    <div class="w-full max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
+      <div class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-600 to-yellow-400 flex items-center justify-center text-slate-950 font-black text-lg shadow-lg shadow-amber-500/30">
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
+        <div>
+          <h1 class="font-tech text-sm sm:text-base font-black tracking-wider text-amber-400 flex items-center gap-1.5">
+            GEOTESTKIT <span class="text-white">PRO</span> <span class="text-[10px] text-amber-300 font-mono px-2 py-0.5 rounded bg-amber-950/80 border border-amber-500/40">PAD C BANYUWANGI</span>
+          </h1>
+          <p class="text-[10px] text-slate-400 font-mono">Sistem Analisis Testing Material &amp; Laboratorium Geoteknik Tambang</p>
+        </div>
+      </div>
 
-  <div id="loadingOverlay" class="fixed inset-0 z-[10000] bg-slate-950 text-white flex flex-col items-center justify-between p-6 transition-opacity duration-700 select-none no-print">
-    <div class="text-center mt-4 space-y-2">
-      <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-slate-900/90 border border-amber-500/40 text-xs font-mono text-amber-300 shadow-inner">
+      <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-slate-900/90 border border-amber-500/40 text-xs font-mono text-amber-300 shadow-inner">
         <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
-        <span id="loadingClock">Memuat Hari &amp; Waktu Real-Time...</span>
-        <script>
-          (function() {
-            var now = new Date();
-            var days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
-            var months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
-            var dStr = days[now.getDay()] + ', ' + now.getDate() + ' ' + months[now.getMonth()] + ' ' + now.getFullYear();
-            var tStr = String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0') + ':' + String(now.getSeconds()).padStart(2,'0');
-            var el = document.getElementById('loadingClock');
-            if (el) el.innerText = dStr + ' • ' + tStr + ' WIB';
-          })();
-        </script>
+        <span id="authClock">Memuat Hari &amp; Waktu Real-Time...</span>
+        <span id="loadingClock" class="hidden"></span>
       </div>
-      <h2 class="text-xl sm:text-2xl font-black tracking-wider text-amber-400 flex items-center justify-center gap-2 font-tech uppercase">
-        <i class="fa-solid fa-flask-vial text-white"></i> GEOTESTKIT PRO MASTER EDITION V1.0
-      </h2>
-      <p class="text-xs text-slate-400 font-mono">Sistem Analisis Testing Material &amp; Laboratorium Geoteknik Tambang Pad C TSF Banyuwangi</p>
     </div>
 
-    <div class="relative w-60 h-60 sm:w-72 sm:h-72 flex items-center justify-center my-auto">
-      <div id="loadingEarthCanvas" class="w-full h-full"></div>
-      <div class="absolute inset-0 rounded-full bg-amber-500/10 blur-2xl pointer-events-none"></div>
+    <!-- Center Content: Grid of 3D Earth (Left) and Password Card (Right) -->
+    <div class="w-full max-w-5xl mx-auto my-auto py-4 sm:py-6 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center justify-center">
+      
+      <!-- Kolom Kiri: Animasi Bumi Nyata 3D Berputar dengan Awan & Satelit -->
+      <div class="lg:col-span-6 flex flex-col items-center justify-center space-y-3">
+        <div class="relative w-64 h-64 sm:w-80 sm:h-80 md:w-88 md:h-88 flex items-center justify-center rounded-full earth-glow-box bg-slate-900/40 border border-amber-500/30 backdrop-blur-sm cursor-grab active:cursor-grabbing" title="Geser/Putar Bumi 3D dengan mouse atau sentuhan jari">
+          <div id="loadingEarthCanvas" class="w-full h-full rounded-full overflow-hidden"></div>
+          <div class="absolute inset-0 rounded-full bg-radial from-transparent via-transparent to-slate-950/50 pointer-events-none"></div>
+          <!-- Badge petunjuk interaksi -->
+          <div class="absolute bottom-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-slate-950/85 border border-amber-500/40 text-[10px] font-mono text-amber-300 flex items-center gap-1.5 shadow pointer-events-none whitespace-nowrap">
+            <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+            <span>Bumi Nyata &amp; Awan 3D (Sentuh/Geser untuk Memutar)</span>
+          </div>
+        </div>
+        <div class="text-center space-y-1">
+          <div class="text-xs font-mono font-bold text-amber-300 flex items-center justify-center gap-2">
+            <i class="fa-solid fa-satellite text-amber-400 animate-pulse"></i> ORBIT PEMANTAUAN TSF PAD C
+          </div>
+          <p class="text-[11px] text-slate-400 font-mono max-w-xs mx-auto">
+            Koordinat Penyelidikan: -8.59850&deg; LS, 114.03750&deg; BT &bull; Proyek Emas Tujuh Bukit Banyuwangi
+          </p>
+        </div>
+      </div>
+
+      <!-- Kolom Kanan: Card Autentikasi Form User Name & Password -->
+      <div class="lg:col-span-6 w-full max-w-md mx-auto">
+        <div id="authCard" class="bg-slate-900/90 border border-amber-500/50 rounded-2xl p-6 sm:p-7 shadow-2xl shadow-amber-500/10 backdrop-blur-xl space-y-4 sm:space-y-5 transition-all duration-300 relative overflow-hidden">
+          
+          <!-- Glowing decorative accent -->
+          <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-500 via-yellow-400 to-cyan-400"></div>
+
+          <div class="space-y-1">
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30 flex items-center gap-1">
+                <i class="fa-solid fa-lock"></i> SISTEM TERPROTEKSI
+              </span>
+              <span class="text-[10px] font-mono text-slate-400">VERIFIKASI PENGGUNA</span>
+            </div>
+            <h2 class="text-lg sm:text-xl font-bold font-tech text-white flex items-center gap-2">
+              <i class="fa-solid fa-id-badge text-amber-400"></i> LOGIN KE APLIKASI
+            </h2>
+            <p class="text-xs text-slate-400 font-mono">Masukkan kredensial resmi pengawas geoteknik untuk masuk ke dasbor.</p>
+          </div>
+
+          <!-- Alert Pesan Status / Error / Success -->
+          <div id="authStatusAlert" class="hidden text-xs font-mono p-3 rounded-xl border transition-all duration-300"></div>
+
+          <!-- Input User Name -->
+          <div class="space-y-1.5">
+            <label for="authUsername" class="block text-xs font-mono text-slate-300 flex items-center justify-between">
+              <span class="font-bold text-amber-300"><i class="fa-solid fa-user-shield mr-1"></i> USER NAME</span>
+            </label>
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-amber-400">
+                <i class="fa-solid fa-user"></i>
+              </div>
+              <input type="text" id="authUsername" class="w-full pl-10 pr-3 py-2.5 bg-slate-950/80 border border-slate-700 focus:border-amber-400 focus:ring-2 focus:ring-amber-400/20 rounded-xl text-white font-mono text-sm placeholder-slate-500 outline-none transition" placeholder="Masukkan User Name" autocomplete="username" />
+            </div>
+          </div>
+
+          <!-- Input Password -->
+          <div class="space-y-1.5">
+            <label for="authPassword" class="block text-xs font-mono text-slate-300 flex items-center justify-between">
+              <span class="font-bold text-amber-300"><i class="fa-solid fa-key mr-1"></i> PASSWORD</span>
+            </label>
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-amber-400">
+                <i class="fa-solid fa-lock"></i>
+              </div>
+              <input type="password" id="authPassword" class="w-full pl-10 pr-10 py-2.5 bg-slate-950/80 border border-slate-700 focus:border-amber-400 focus:ring-2 focus:ring-amber-400/20 rounded-xl text-white font-mono text-sm placeholder-slate-500 outline-none transition" placeholder="Masukkan Password" autocomplete="current-password" />
+              <button type="button" onclick="toggleAuthPasswordVisibility()" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-amber-300 transition cursor-pointer" title="Lihat/Sembunyikan Password">
+                <i id="authEyeIcon" class="fa-solid fa-eye"></i>
+              </button>
+            </div>
+          </div>
+
+
+
+          <!-- Tombol Masuk -->
+          <button type="button" id="authSubmitBtn" onclick="handleAuthSubmit()" class="w-full py-3 rounded-xl bg-gradient-to-r from-amber-600 via-amber-500 to-yellow-500 hover:from-amber-500 hover:to-yellow-400 text-slate-950 font-black font-mono text-sm flex items-center justify-center gap-2 shadow-lg shadow-amber-500/30 hover:shadow-amber-500/50 transition-all transform active:scale-95 cursor-pointer">
+            <i class="fa-solid fa-right-to-bracket text-base"></i> MASUK KE APLIKASI
+          </button>
+
+          <div class="text-[10px] text-center text-slate-500 font-mono">
+            Tekan <kbd class="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">Enter</kbd> untuk verifikasi langsung
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="w-full max-w-md text-center mb-6 space-y-3">
-      <div class="flex justify-between text-xs text-slate-400 font-mono mb-1">
-        <span id="loadingStatusText">Menginisialisasi kurva gradasi butiran &amp; Proctor...</span>
-        <span id="loadingPercent" class="text-amber-400 font-bold">100%</span>
+    <!-- Bottom Footer -->
+    <div class="w-full max-w-5xl mx-auto text-center pb-2 space-y-1">
+      <div class="text-[11px] text-slate-400 font-mono">
+        &ldquo;Kekuatan tanah dan kestabilan tanggul tambang bermula dari pemahaman teliti atas setiap butir materialnya.&rdquo; &mdash; Ir. Mohamad Hartadi
       </div>
-      <div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden border border-slate-700">
-        <div id="loadingProgressBar" class="h-full bg-gradient-to-r from-amber-500 via-yellow-400 to-cyan-400 w-full transition-all duration-300"></div>
-      </div>
-      <div class="pt-2">
-        <button type="button" onclick="dismissLoadingScreen()" style="pointer-events: auto !important; position: relative; z-index: 10005;" class="text-xs text-amber-300 hover:text-white px-5 py-2 rounded-xl bg-slate-900 border border-amber-500/60 hover:bg-amber-950 transition font-mono font-bold cursor-pointer shadow-lg">
-          Lewati / Masuk ke Dasbor &rarr;
-        </button>
-      </div>
-      <div class="text-[10px] text-slate-500 font-mono pt-1">
-        "Kekuatan tanah dan kestabilan tanggul tambang bermula dari pemahaman teliti atas setiap butir materialnya." — Ir. Mohamad Hartadi
+      <div class="text-[10px] text-slate-500 font-mono">
+        PT Bumi Suksesindo &bull; Pad C TSF Mining Geotechnical Quality Control &bull; Banyuwangi, Jawa Timur
       </div>
     </div>
   </div>
@@ -372,6 +454,9 @@
         </div>
 
         <div class="flex lg:hidden items-center gap-1">
+          <button type="button" onclick="lockApplication()" class="p-2 rounded-lg bg-amber-950 border border-amber-600/60 text-amber-300 text-xs" title="Kunci Aplikasi">
+            <i class="fa-solid fa-lock"></i>
+          </button>
           <button onclick="toggleChatWindow()" class="p-2 rounded-lg bg-amber-600 text-white text-xs">
             <i class="fa-solid fa-robot"></i>
           </button>
@@ -400,6 +485,10 @@
 
         <button type="button" onclick="exportToPDF()" class="px-2.5 py-1.5 rounded-lg bg-rose-700 hover:bg-rose-600 text-white font-bold flex items-center gap-1 transition shadow" title="Cetak Laporan Resmi Laboratorium ke PDF">
           <i class="fa-solid fa-file-pdf"></i> <span class="hidden sm:inline">PDF</span>
+        </button>
+
+        <button type="button" onclick="lockApplication()" class="px-2.5 py-1.5 rounded-lg bg-amber-950/80 hover:bg-amber-900 text-amber-200 border border-amber-600/60 font-bold flex items-center gap-1 transition shadow" title="Kunci Aplikasi (Layar Password Bumi 3D)">
+          <i class="fa-solid fa-lock text-amber-400"></i> <span class="hidden md:inline">Kunci</span>
         </button>
 
         <button type="button" onclick="toggleScreensaver(true)" class="px-2.5 py-1.5 rounded-lg bg-indigo-900/80 hover:bg-indigo-800 text-indigo-200 border border-indigo-500/60 font-bold flex items-center gap-1 transition" title="Buka Screensaver 3D Orbit Bumi Nyata">
@@ -1542,9 +1631,217 @@
       try { initLoadingRealisticEarth(); } catch(e) { console.warn('Loading earth:', e); }
       try { initBackgroundRealisticEarth(); } catch(e) { console.warn('Background earth:', e); }
       try { initLiveClock(); } catch(e) { console.warn('Live clock:', e); }
+      try { initAuthSystem(); } catch(e) { console.warn('Auth system:', e); }
       try { loadSample("6A"); } catch(e) { console.warn('Load sample:', e); }
       try { initGeotechMap(); } catch(e) { console.warn('Geotech map:', e); }
     });
+
+    // ==================== AUTHENTICATION & PASSWORD LOGIC (CHS / CHS2026) ====================
+    function playAuthAudio(isSuccess) {
+      try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return;
+        const ctx = new AudioCtx();
+        if (isSuccess) {
+          const notes = [523.25, 659.25, 783.99, 1046.50];
+          notes.forEach((freq, idx) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(freq, ctx.currentTime + idx * 0.08);
+            gain.gain.setValueAtTime(0.001, ctx.currentTime + idx * 0.08);
+            gain.gain.exponentialRampToValueAtTime(0.18, ctx.currentTime + idx * 0.08 + 0.02);
+            gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + idx * 0.08 + 0.35);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(ctx.currentTime + idx * 0.08);
+            osc.stop(ctx.currentTime + idx * 0.08 + 0.4);
+          });
+        } else {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(240, ctx.currentTime);
+          osc.frequency.linearRampToValueAtTime(130, ctx.currentTime + 0.28);
+          gain.gain.setValueAtTime(0.14, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.32);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(ctx.currentTime);
+          osc.stop(ctx.currentTime + 0.35);
+        }
+      } catch (e) { console.warn('Audio feedback:', e); }
+    }
+
+    function toggleAuthPasswordVisibility() {
+      const input = document.getElementById('authPassword');
+      const icon = document.getElementById('authEyeIcon');
+      if (!input || !icon) return;
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.className = 'fa-solid fa-eye-slash text-amber-400';
+      } else {
+        input.type = 'password';
+        icon.className = 'fa-solid fa-eye text-slate-400';
+      }
+    }
+
+    function quickFillCredentials() {
+      const u = document.getElementById('authUsername');
+      const p = document.getElementById('authPassword');
+      if (u) u.value = 'CHS';
+      if (p) p.value = 'CHS2026';
+      showAuthAlert('Kredensial resmi terisi! Tekan tombol "MASUK KE APLIKASI" atau Enter.', 'info');
+      if (p) p.focus();
+    }
+
+    function showAuthAlert(msg, type) {
+      const el = document.getElementById('authStatusAlert');
+      if (!el) return;
+      el.classList.remove('hidden', 'bg-rose-950/80', 'border-rose-500/60', 'text-rose-200', 'bg-emerald-950/80', 'border-emerald-500/60', 'text-emerald-200', 'bg-cyan-950/80', 'border-cyan-500/60', 'text-cyan-200');
+      
+      let icon = '<i class="fa-solid fa-circle-info mr-1.5"></i>';
+      if (type === 'error') {
+        el.classList.add('bg-rose-950/80', 'border-rose-500/60', 'text-rose-200');
+        icon = '<i class="fa-solid fa-triangle-exclamation mr-1.5 text-rose-400"></i>';
+      } else if (type === 'success') {
+        el.classList.add('bg-emerald-950/80', 'border-emerald-500/60', 'text-emerald-200');
+        icon = '<i class="fa-solid fa-circle-check mr-1.5 text-emerald-400"></i>';
+      } else {
+        el.classList.add('bg-cyan-950/80', 'border-cyan-500/60', 'text-cyan-200');
+        icon = '<i class="fa-solid fa-circle-info mr-1.5 text-cyan-400"></i>';
+      }
+      el.innerHTML = icon + '<span>' + msg + '</span>';
+    }
+
+    function handleAuthSubmit() {
+      const uInput = document.getElementById('authUsername');
+      const pInput = document.getElementById('authPassword');
+      const card = document.getElementById('authCard');
+      const btn = document.getElementById('authSubmitBtn');
+      
+      const username = (uInput ? uInput.value : '').trim();
+      const password = (pInput ? pInput.value : '').trim();
+
+      // Check credentials: User Name: CHS, Password: CHS2026
+      if (username.toUpperCase() === 'CHS' && password === 'CHS2026') {
+        playAuthAudio(true);
+        if (bootEarthObj && bootEarthObj.setSpeed) {
+          bootEarthObj.setSpeed(0.018);
+        }
+        if (card) {
+          card.classList.add('border-emerald-500');
+          card.style.boxShadow = '0 0 40px rgba(16, 185, 129, 0.45)';
+        }
+        if (btn) {
+          btn.classList.remove('from-amber-600', 'via-amber-500', 'to-yellow-500');
+          btn.classList.add('from-emerald-600', 'to-teal-500', 'text-white');
+          btn.innerHTML = '<i class="fa-solid fa-circle-check animate-bounce text-base"></i> AUTENTIKASI BERHASIL! MEMBUKA...';
+        }
+        showAuthAlert('Autentikasi Berhasil! Mengalihkan ke Dasbor...', 'success');
+
+        try { sessionStorage.setItem('geotestkit_authenticated', 'true'); } catch(e) {}
+
+        setTimeout(() => {
+          const overlay = document.getElementById('authOverlay') || document.getElementById('loadingOverlay');
+          if (overlay) {
+            overlay.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+            overlay.style.opacity = '0';
+            overlay.style.transform = 'scale(1.02)';
+            overlay.style.pointerEvents = 'none';
+            setTimeout(() => {
+              overlay.style.display = 'none';
+              if (bootEarthObj && bootEarthObj.setSpeed) {
+                bootEarthObj.setSpeed(0.004);
+              }
+              if (mapInstance) mapInstance.invalidateSize();
+            }, 600);
+          }
+          if (typeof showToast === 'function') {
+            showToast('Selamat Datang di GeoTestKit Pro Pad C!', 'success');
+          }
+        }, 750);
+
+      } else {
+        playAuthAudio(false);
+        if (card) {
+          card.classList.remove('animate-auth-shake');
+          void card.offsetWidth;
+          card.classList.add('animate-auth-shake');
+        }
+        if (pInput) {
+          pInput.classList.add('border-rose-500');
+          pInput.value = '';
+          pInput.focus();
+        }
+        showAuthAlert('User Name atau Password salah! Silakan coba lagi.', 'error');
+      }
+    }
+
+    function lockApplication() {
+      try { sessionStorage.removeItem('geotestkit_authenticated'); } catch(e) {}
+      const overlay = document.getElementById('authOverlay') || document.getElementById('loadingOverlay');
+      if (overlay) {
+        overlay.style.display = 'flex';
+        overlay.style.pointerEvents = 'auto';
+        overlay.style.transform = 'scale(1)';
+        void overlay.offsetWidth;
+        overlay.style.transition = 'opacity 0.4s ease-in, transform 0.4s ease-in';
+        overlay.style.opacity = '1';
+      }
+      const pInput = document.getElementById('authPassword');
+      if (pInput) {
+        pInput.value = '';
+        pInput.classList.remove('border-rose-500');
+      }
+      const card = document.getElementById('authCard');
+      if (card) {
+        card.classList.remove('border-emerald-500', 'animate-auth-shake');
+        card.style.boxShadow = '';
+      }
+      const btn = document.getElementById('authSubmitBtn');
+      if (btn) {
+        btn.className = 'w-full py-3 rounded-xl bg-gradient-to-r from-amber-600 via-amber-500 to-yellow-500 hover:from-amber-500 hover:to-yellow-400 text-slate-950 font-black font-mono text-sm flex items-center justify-center gap-2 shadow-lg shadow-amber-500/30 hover:shadow-amber-500/50 transition-all transform active:scale-95 cursor-pointer';
+        btn.innerHTML = '<i class="fa-solid fa-right-to-bracket text-base"></i> MASUK KE APLIKASI';
+      }
+      showAuthAlert('Sistem terkunci. Masukkan User Name &amp; Password untuk masuk kembali.', 'info');
+      setTimeout(() => {
+        if (pInput) pInput.focus();
+      }, 400);
+      if (typeof showToast === 'function') {
+        showToast('Aplikasi berhasil dikunci.', 'info');
+      }
+    }
+
+    function initAuthSystem() {
+      try {
+        const isAuth = sessionStorage.getItem('geotestkit_authenticated') === 'true';
+        const overlay = document.getElementById('authOverlay') || document.getElementById('loadingOverlay');
+        if (isAuth && overlay) {
+          overlay.style.display = 'none';
+        } else if (overlay) {
+          overlay.style.display = 'flex';
+          overlay.style.opacity = '1';
+          overlay.style.pointerEvents = 'auto';
+        }
+      } catch(e) {}
+
+      const u = document.getElementById('authUsername');
+      const p = document.getElementById('authPassword');
+      if (u) {
+        u.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            if (p && !p.value) p.focus();
+            else handleAuthSubmit();
+          }
+        });
+      }
+      if (p) {
+        p.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') handleAuthSubmit();
+        });
+      }
+    }
 
     function dismissLoadingScreen() {
       const el = document.getElementById('loadingOverlay');
@@ -1563,6 +1860,11 @@
         const dStr = days[now.getDay()] + ', ' + now.getDate() + ' ' + months[now.getMonth()] + ' ' + now.getFullYear();
         const tStr = String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0') + ':' + String(now.getSeconds()).padStart(2,'0');
         
+        const authEl = document.getElementById('authClock');
+        if (authEl) authEl.innerText = dStr + ' • ' + tStr + ' WIB';
+        const loadEl = document.getElementById('loadingClock');
+        if (loadEl) loadEl.innerText = dStr + ' • ' + tStr + ' WIB';
+
         const el = document.getElementById('supervisionLiveClock');
         if (el) el.innerText = dStr + ' • ' + tStr + ' WIB';
 
@@ -3805,11 +4107,11 @@
       const canvas = document.getElementById('loadingEarthCanvas');
       if (!canvas || typeof THREE === 'undefined') return;
       try {
-        const radius = 1.25;
-        const width = canvas.clientWidth || 240;
-        const height = canvas.clientHeight || 240;
+        const radius = 1.35;
+        const width = canvas.clientWidth || 320;
+        const height = canvas.clientHeight || 320;
         const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
-        camera.position.z = radius * 3.4;
+        camera.position.z = radius * 3.35;
         const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         renderer.setSize(width, height);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -3818,16 +4120,58 @@
 
         bootEarthObj = buildEarthScene(radius);
         let angle = 0;
+        let rotSpeed = 0.004;
+        let cloudSpeed = 0.0065;
+        bootEarthObj.setSpeed = function(s) { rotSpeed = s; cloudSpeed = s * 1.6; };
+        
         function renderBoot() {
           bootEarthRAF = requestAnimationFrame(renderBoot);
-          bootEarthObj.globe.rotation.y += 0.004;
-          bootEarthObj.clouds.rotation.y += 0.006;
+          bootEarthObj.globe.rotation.y += rotSpeed;
+          bootEarthObj.clouds.rotation.y += cloudSpeed;
           angle += 0.02;
-          const x = 1.8 * Math.cos(angle), z = 1.5 * Math.sin(angle);
+          const x = 1.85 * Math.cos(angle), z = 1.55 * Math.sin(angle);
           bootEarthObj.sat.position.set(x, z * Math.sin(Math.PI / 3.5), z * Math.cos(Math.PI / 3.5));
           renderer.render(bootEarthObj.scene, camera);
         }
         renderBoot();
+
+        // Mouse & Touch Drag to rotate Earth interactively
+        let isDragging = false;
+        let previousMousePosition = { x: 0, y: 0 };
+        canvas.addEventListener('pointerdown', (e) => {
+          isDragging = true;
+          previousMousePosition = { x: e.clientX, y: e.clientY };
+          if (canvas.setPointerCapture) {
+            try { canvas.setPointerCapture(e.pointerId); } catch(err) {}
+          }
+        });
+        window.addEventListener('pointermove', (e) => {
+          if (!isDragging || !bootEarthObj) return;
+          const deltaX = e.clientX - previousMousePosition.x;
+          const deltaY = e.clientY - previousMousePosition.y;
+          bootEarthObj.globe.rotation.y += deltaX * 0.008;
+          bootEarthObj.clouds.rotation.y += deltaX * 0.009;
+          bootEarthObj.globe.rotation.x += deltaY * 0.005;
+          bootEarthObj.clouds.rotation.x += deltaY * 0.005;
+          previousMousePosition = { x: e.clientX, y: e.clientY };
+        });
+        window.addEventListener('pointerup', (e) => {
+          isDragging = false;
+          if (canvas.releasePointerCapture) {
+            try { canvas.releasePointerCapture(e.pointerId); } catch(err) {}
+          }
+        });
+        window.addEventListener('pointercancel', () => { isDragging = false; });
+
+        window.addEventListener('resize', () => {
+          if (canvas && renderer && camera) {
+            const nw = canvas.clientWidth || 300;
+            const nh = canvas.clientHeight || 300;
+            camera.aspect = nw / nh;
+            camera.updateProjectionMatrix();
+            renderer.setSize(nw, nh);
+          }
+        });
       } catch (err) { console.warn('Boot Earth:', err); }
     }
 
