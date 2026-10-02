@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>GeoTestKit PRO V1.2 — Analisis Testing Material & Geoteknik Tambang Pad C Extension TSF Banyuwangi</title>
+  <title>GeoTestKit PRO V1.4 — Analisis Testing Material & Geoteknik Tambang Pad C Extension TSF Banyuwangi</title>
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -634,6 +634,9 @@
       </button>
       <button onclick="switchTab('tabSchedule')" id="btnTabSchedule" class="tab-btn px-3.5 py-1.5 rounded-lg text-xs font-mono font-bold border border-slate-700 text-slate-300 hover:text-white transition flex items-center gap-2">
         <i class="fa-solid fa-calendar-days text-emerald-400"></i> 08. Schedule Program &amp; Mitigasi
+      </button>
+      <button onclick="switchTab('tabFreq')" id="btnTabFreq" class="tab-btn px-3.5 py-1.5 rounded-lg text-xs font-mono font-bold border border-slate-700 text-slate-300 hover:text-white transition flex items-center gap-2">
+        <i class="fa-solid fa-table-cells-large text-rose-400"></i> 09. Frekuensi Uji Timbunan Zona 1-3
       </button>
     </div>
   </nav>
@@ -1616,6 +1619,297 @@
 
     </section>
 
+    <section id="tabFreq" class="tab-pane hidden space-y-4 font-mono">
+
+      <div class="cmd-card p-4 sm:p-5 flex flex-wrap justify-between items-center gap-3">
+        <div class="flex items-center gap-3">
+          <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-amber-600 to-rose-400 flex items-center justify-center text-slate-950 text-xl shadow-lg"><i class="fa-solid fa-table-cells-large"></i></div>
+          <div>
+            <h2 class="text-base sm:text-lg font-black tracking-wide text-amber-300">TABEL 5.6 &amp; 5.7 — FREKUENSI PENGUJIAN KUALITAS PEKERJAAN TIMBUNAN</h2>
+            <p class="text-[10px] text-slate-400">Frekuensi uji sebelum &amp; setelah penimbunan untuk Zona 1 (Material berbutir halus), Zona 2 (Filter), Zona 3 (Transisi), Zona 4 (Random batu), dan Zona 5 (Rip-rap) — Pad C Extension TSF.</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 flex-wrap">
+          <button onclick="freqExportPDF()" class="px-2.5 py-1 rounded bg-rose-950 hover:bg-rose-900 border border-rose-500/60 text-rose-300 font-bold text-[10px] transition"><i class="fa-solid fa-file-pdf"></i> PDF</button>
+          <button onclick="freqExportExcel()" class="px-2.5 py-1 rounded bg-emerald-950 hover:bg-emerald-900 border border-emerald-500/60 text-emerald-300 font-bold text-[10px] transition"><i class="fa-solid fa-file-excel"></i> EXCEL</button>
+        </div>
+      </div>
+
+      <div class="cmd-card p-4 sm:p-5 space-y-3">
+        <h3 class="text-xs font-bold text-cyan-300 flex items-center gap-2"><i class="fa-solid fa-vial-circle-check"></i> TABEL 5.6 — FREKUENSI PENGUJIAN KUALITAS TIMBUNAN ZONA 1, ZONA 2 &amp; ZONA 3</h3>
+        <div class="overflow-x-auto rounded-xl border border-slate-800">
+          <table class="w-full text-[10px] border-collapse" id="freqTableMain">
+            <thead>
+              <tr class="bg-slate-900 text-slate-200">
+                <th rowspan="3" class="p-2 border border-slate-700 align-middle">Material</th>
+                <th rowspan="3" class="p-2 border border-slate-700 align-middle">Volume (m&sup3;)</th>
+                <th colspan="2" class="p-2 border border-slate-700 text-cyan-300">Sebelum Penimbunan</th>
+                <th colspan="2" class="p-2 border border-slate-700 text-emerald-300">Setelah Penimbunan</th>
+              </tr>
+              <tr class="bg-slate-900/80 text-slate-300">
+                <th class="p-1.5 border border-slate-700">Item Pengujian</th>
+                <th class="p-1.5 border border-slate-700">Frekuensi Uji</th>
+                <th class="p-1.5 border border-slate-700">Item Pengujian</th>
+                <th class="p-1.5 border border-slate-700">Frekuensi Uji</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800">
+              <!-- ZONA 1 -->
+              <tr class="bg-amber-950/20">
+                <td rowspan="9" class="p-2 border border-slate-800 align-top font-bold text-amber-300">Zona 1 –<br>Material berbutir halus</td>
+                <td rowspan="9" class="p-2 border border-slate-800 align-top text-center text-white font-bold">197.300</td>
+                <td class="p-1.5 border border-slate-800 italic text-slate-200">Batas atterberg</td>
+                <td class="p-1.5 border border-slate-800 text-cyan-200">1x uji per 20.000 m&sup3;</td>
+                <td rowspan="1" class="p-1.5 border border-slate-800 text-slate-200">Metode penghamparan</td>
+                <td class="p-1.5 border border-slate-800 text-emerald-200">Tebal timbunan 30 cm</td>
+              </tr>
+              <tr>
+                <td class="p-1.5 border border-slate-800 text-slate-200">Analisa saringan + hydrometer</td>
+                <td class="p-1.5 border border-slate-800 text-cyan-200">1x uji per 20.000 m&sup3;</td>
+                <td class="p-1.5 border border-slate-800 text-slate-200">UDS sampel &amp; Uji Lab (Lab independen)<sup>*</sup></td>
+                <td class="p-1.5 border border-slate-800 text-emerald-200">1 sampel per 22.800 m&sup3;</td>
+              </tr>
+              <tr>
+                <td class="p-1.5 border border-slate-800 text-slate-200">Crumb test/Pinhole</td>
+                <td class="p-1.5 border border-slate-800 text-cyan-200">1x uji per 20.000 m&sup3;</td>
+                <td rowspan="2" class="p-1.5 border border-slate-800 text-slate-200">Uji kepadatan &amp; Kadar Air</td>
+                <td rowspan="2" class="p-1.5 border border-slate-800 text-emerald-200">1x per 750 – 2.300 m&sup3; atau Setiap layer</td>
+              </tr>
+              <tr>
+                <td class="p-1.5 border border-slate-800 text-slate-200">Kadar Air</td>
+                <td class="p-1.5 border border-slate-800 text-cyan-200">1x uji per 20.000 m&sup3;</td>
+              </tr>
+              <tr>
+                <td class="p-1.5 border border-slate-800 text-slate-200">DS sampel borrow + Uji Lab (Lab independen)<sup>*</sup></td>
+                <td class="p-1.5 border border-slate-800 text-cyan-200">1x 40.000 m&sup3; uji Setiap borrow area</td>
+                <td rowspan="1" class="p-1.5 border border-slate-800 text-slate-200">Uji permeabilitas</td>
+                <td class="p-1.5 border border-slate-800 text-emerald-200">1x per 750 – 2.300 m&sup3; atau Setiap layer</td>
+              </tr>
+              <tr>
+                <td class="p-1.5 border border-slate-800 text-slate-200">Uji coba timbunan</td>
+                <td class="p-1.5 border border-slate-800 text-cyan-200">Minimal 1x trial</td>
+                <td colspan="2" class="p-1.5 border border-slate-800 text-slate-600 text-center">—</td>
+              </tr>
+              <tr>
+                <td class="p-1.5 border border-slate-800 text-slate-200">Kadar sulfat total</td>
+                <td class="p-1.5 border border-slate-800 text-cyan-200">1x uji per 40.000 m&sup3;</td>
+                <td colspan="2" class="p-1.5 border border-slate-800 text-slate-600 text-center">—</td>
+              </tr>
+              <tr>
+                <td class="p-1.5 border border-slate-800 text-slate-200">Pembentukan asam bersih (NAG) pH</td>
+                <td class="p-1.5 border border-slate-800 text-cyan-200">1x uji per 40.000 m&sup3;</td>
+                <td colspan="2" class="p-1.5 border border-slate-800 text-slate-600 text-center">—</td>
+              </tr>
+              <tr>
+                <td class="p-1.5 border border-slate-800 text-slate-200">Mineralogy Test (XRD)</td>
+                <td class="p-1.5 border border-slate-800 text-cyan-200">3 uji per 40.000 m&sup3;</td>
+                <td colspan="2" class="p-1.5 border border-slate-800 text-slate-600 text-center">—</td>
+              </tr>
+              <!-- ZONA 2 & 3 -->
+              <tr class="bg-cyan-950/20">
+                <td class="p-2 border border-slate-800 align-top font-bold text-cyan-300">Zona 2 – Filter</td>
+                <td class="p-2 border border-slate-800 align-top text-center text-white font-bold">101.200</td>
+                <td class="p-1.5 border border-slate-800 text-slate-200">Analisa saringan</td>
+                <td class="p-1.5 border border-slate-800 text-cyan-200">1x uji per 10.000 m&sup3;</td>
+                <td rowspan="2" class="p-1.5 border border-slate-800 text-slate-200">Metode penghamparan</td>
+                <td rowspan="2" class="p-1.5 border border-slate-800 text-emerald-200">Tebal timbunan 30 cm</td>
+              </tr>
+              <tr class="bg-cyan-950/20">
+                <td class="p-2 border border-slate-800 align-top font-bold text-cyan-300">Zona 3 – Transisi</td>
+                <td class="p-2 border border-slate-800 align-top text-center text-white font-bold">100.000</td>
+                <td class="p-1.5 border border-slate-800 text-slate-200">Kadar sulfur total</td>
+                <td class="p-1.5 border border-slate-800 text-cyan-200">1x uji per 25.000 m&sup3;</td>
+              </tr>
+              <tr>
+                <td colspan="2" class="p-1.5 border border-slate-800 text-slate-600 text-center text-[9px]">(gabungan Zona 2 &amp; 3)</td>
+                <td class="p-1.5 border border-slate-800 text-slate-200">Pembentukan asam bersih (NAG) pH</td>
+                <td class="p-1.5 border border-slate-800 text-cyan-200">1x uji per 25.000 m&sup3;</td>
+                <td rowspan="2" class="p-1.5 border border-slate-800 text-slate-200">Kepadatan lapangan, Analisa Saringan &amp; Kadar Air</td>
+                <td rowspan="2" class="p-1.5 border border-slate-800 text-emerald-200">1x per 22.800 – 33.800 m&sup3;</td>
+              </tr>
+              <tr>
+                <td colspan="2" class="p-1.5 border border-slate-800 text-slate-600 text-center text-[9px]">(gabungan Zona 2 &amp; 3)</td>
+                <td rowspan="3" class="p-1.5 border border-slate-800 text-slate-200">Uji permeabilitas</td>
+                <td rowspan="3" class="p-1.5 border border-slate-800 text-cyan-200">1 sampel setiap quarry, atau minimal 6x uji dari total volume timbunan atau 1x per 22.800 – 33.800 m&sup3;</td>
+              </tr>
+              <tr>
+                <td colspan="2" class="p-1.5 border border-slate-800 text-slate-600 text-center text-[9px]">(gabungan Zona 2 &amp; 3)</td>
+                <td class="p-1.5 border border-slate-800 text-slate-200">Analisa Saringan</td>
+                <td class="p-1.5 border border-slate-800 text-emerald-200">—</td>
+              </tr>
+              <tr>
+                <td colspan="2" class="p-1.5 border border-slate-800 text-slate-600 text-center text-[9px]">(gabungan Zona 2 &amp; 3)</td>
+                <td class="p-1.5 border border-slate-800 text-slate-200">Uji permeabilitas dengan metode constant head</td>
+                <td class="p-1.5 border border-slate-800 text-emerald-200">1x per 22.800 – 33.800 m&sup3;</td>
+              </tr>
+              <tr>
+                <td colspan="2" class="p-1.5 border border-slate-800 text-slate-600 text-center text-[9px]">(gabungan Zona 2 &amp; 3)</td>
+                <td class="p-1.5 border border-slate-800 text-slate-200">Uji kandungan sulfida dan ketahanan sulfat</td>
+                <td class="p-1.5 border border-slate-800 text-cyan-200">1 sampel setiap quarry, atau minimal 6x uji dari total volume timbunan atau 1x per 22.800 – 33.800 m&sup3;</td>
+                <td colspan="2" class="p-1.5 border border-slate-800 text-slate-600 text-center">—</td>
+              </tr>
+              <tr>
+                <td colspan="2" class="p-1.5 border border-slate-800 text-slate-600 text-center text-[9px]">(gabungan Zona 2 &amp; 3)</td>
+                <td class="p-1.5 border border-slate-800 text-slate-200">Uji abrasi, variasi kekuatan basah/kering, uji klarifikasi ketahanan pelapukan</td>
+                <td class="p-1.5 border border-slate-800 text-cyan-200">1 sampel setiap quarry, atau minimal 6x uji dari total volume timbunan atau 1x per 22.800 – 33.800 m&sup3;</td>
+                <td colspan="2" class="p-1.5 border border-slate-800 text-slate-600 text-center">—</td>
+              </tr>
+              <tr>
+                <td colspan="2" class="p-1.5 border border-slate-800 text-slate-600 text-center text-[9px]">(gabungan Zona 2 &amp; 3)</td>
+                <td class="p-1.5 border border-slate-800 text-slate-200">DS sampel quarry + Uji Lab (Lab independen)<sup>**</sup></td>
+                <td class="p-1.5 border border-slate-800 text-cyan-200">1x uji Setiap quarry atau minimal 1x per 40.000 m&sup3;</td>
+                <td colspan="2" class="p-1.5 border border-slate-800 text-slate-600 text-center">—</td>
+              </tr>
+              <tr>
+                <td colspan="2" class="p-1.5 border border-slate-800 text-slate-600 text-center text-[9px]">(gabungan Zona 2 &amp; 3)</td>
+                <td class="p-1.5 border border-slate-800 text-slate-200">Kepadatan relatif</td>
+                <td class="p-1.5 border border-slate-800 text-cyan-200">1x uji per quarry baru (meja getar)</td>
+                <td colspan="2" class="p-1.5 border border-slate-800 text-slate-600 text-center">—</td>
+              </tr>
+              <tr>
+                <td colspan="2" class="p-1.5 border border-slate-800 text-slate-600 text-center text-[9px]">(gabungan Zona 2 &amp; 3)</td>
+                <td class="p-1.5 border border-slate-800 text-slate-200">Uji coba timbunan</td>
+                <td class="p-1.5 border border-slate-800 text-cyan-200">Minimal 1x trial</td>
+                <td colspan="2" class="p-1.5 border border-slate-800 text-slate-600 text-center">—</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="text-[9px] text-slate-500 space-y-1 pt-2 border-t border-slate-800">
+          <p><b class="text-amber-400">*</b> &nbsp;: Item uji laboratorium independen zona 1 UDS (tidak terganggu). <b>Tabel 5.9</b></p>
+          <p><b class="text-amber-400">**</b> : Item uji laboratorium independen zona 2, Zona 3, Zona 5, Zona 6, zona 7 DS (terganggu). <b>Tabel 5.10</b></p>
+        </div>
+
+      </div>
+
+      <div class="cmd-card p-4 sm:p-5 space-y-3">
+        <h3 class="text-xs font-bold text-cyan-300 flex items-center gap-2 pt-2"><i class="fa-solid fa-mountain"></i> TABEL 5.7 — FREKUENSI PENGUJIAN KUALITAS TIMBUNAN ZONA 4 (RANDOM BATU) &amp; ZONA 5 (RIP-RAP)</h3>
+        <div class="overflow-x-auto rounded-xl border border-slate-800">
+          <table class="w-full text-[10px] border-collapse" id="freqTable57">
+            <thead>
+              <tr class="bg-slate-900 text-slate-200">
+                <th rowspan="3" class="p-2 border border-slate-700 align-middle">Material</th>
+                <th rowspan="3" class="p-2 border border-slate-700 align-middle">Volume (m&sup3;)</th>
+                <th colspan="2" class="p-2 border border-slate-700 text-cyan-300">Sebelum Penimbunan</th>
+                <th colspan="2" class="p-2 border border-slate-700 text-emerald-300">Setelah Penimbunan</th>
+              </tr>
+              <tr class="bg-slate-900/80 text-slate-300">
+                <th class="p-1.5 border border-slate-700">Item Pengujian</th>
+                <th class="p-1.5 border border-slate-700">Frekuensi Uji</th>
+                <th class="p-1.5 border border-slate-700">Item Pengujian</th>
+                <th class="p-1.5 border border-slate-700">Frekuensi Uji</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800">
+              <!-- ZONA 4 -->
+              <tr class="bg-purple-950/20">
+                <td rowspan="9" class="p-2 border border-slate-800 align-top font-bold text-purple-300">Zona 4 –<br>Random batu</td>
+                <td rowspan="9" class="p-2 border border-slate-800 align-top text-center text-white font-bold">11.040.900</td>
+                <td class="p-1.5 border border-slate-800 text-slate-200">Analisa saringan</td>
+                <td class="p-1.5 border border-slate-800 text-cyan-200">1x uji per 75.000 m&sup3;</td>
+                <td class="p-1.5 border border-slate-800 text-slate-200">Metode penghamparan</td>
+                <td class="p-1.5 border border-slate-800 text-emerald-200">Tebal timbunan 50 cm</td>
+              </tr>
+              <tr>
+                <td class="p-1.5 border border-slate-800 text-slate-200">Analisa saringan</td>
+                <td class="p-1.5 border border-slate-800 text-cyan-200">1x uji per 75.000 m&sup3;</td>
+                <td class="p-1.5 border border-slate-800 text-slate-200">Kepadatan &amp; Kadar Air</td>
+                <td rowspan="2" class="p-1.5 border border-slate-800 text-emerald-200">1x uji per 22.800 – 33.800 m&sup3;</td>
+              </tr>
+              <tr>
+                <td class="p-1.5 border border-slate-800 italic text-slate-200">Phinhole test</td>
+                <td class="p-1.5 border border-slate-800 text-cyan-200">1x uji per 10.000 m&sup3;</td>
+                <td class="p-1.5 border border-slate-800 text-slate-200">Analisa saringan</td>
+              </tr>
+              <tr>
+                <td class="p-1.5 border border-slate-800 text-slate-200">Kepadatan relatif</td>
+                <td class="p-1.5 border border-slate-800 text-cyan-200">Minimal 1x uji</td>
+                <td class="p-1.5 border border-slate-800 text-slate-200">Uji permeabilitas</td>
+                <td class="p-1.5 border border-slate-800 text-emerald-200">—</td>
+              </tr>
+              <tr>
+                <td class="p-1.5 border border-slate-800 text-slate-200">Kadar sulfur total</td>
+                <td class="p-1.5 border border-slate-800 text-cyan-200">1x uji per 150.000 m&sup3;</td>
+                <td class="p-1.5 border border-slate-800 italic text-slate-200">Direct Shear Large Scale</td>
+                <td class="p-1.5 border border-slate-800 text-emerald-200">Elv. 1H/4: 3 Titik Uji<br>Elv. 2H/4: 3 Titik Uji<br>Elv. 3H/4: 3 Titik Uji</td>
+              </tr>
+              <tr>
+                <td class="p-1.5 border border-slate-800 text-slate-200">Uji abrasi LA, variasi kekuatan basah/kering</td>
+                <td class="p-1.5 border border-slate-800 text-cyan-200">1x uji Setiap quarry atau minimal 1x per 22.800 – 33.800 m&sup3;</td>
+                <td class="p-1.5 border border-slate-800 italic text-slate-200">Crushing test</td>
+                <td class="p-1.5 border border-slate-800 text-emerald-200">—</td>
+              </tr>
+              <tr>
+                <td class="p-1.5 border border-slate-800 text-slate-200">Pembentukan asam bersih (NAG) pH</td>
+                <td class="p-1.5 border border-slate-800 text-cyan-200">1x uji per 150.000 m&sup3;</td>
+                <td colspan="2" class="p-1.5 border border-slate-800 text-slate-600 text-center">—</td>
+              </tr>
+              <tr>
+                <td class="p-1.5 border border-slate-800 text-slate-200">DS sampel quarry + Uji Lab (Lab independen)<sup>***</sup></td>
+                <td class="p-1.5 border border-slate-800 text-cyan-200">1x uji Setiap quarry atau minimal 1x per 22.800 – 33.800 m&sup3;</td>
+                <td colspan="2" class="p-1.5 border border-slate-800 text-slate-600 text-center">—</td>
+              </tr>
+              <tr>
+                <td class="p-1.5 border border-slate-800 text-slate-200">Percobaan timbunan (kepadatan &amp; Permeabilitas)</td>
+                <td class="p-1.5 border border-slate-800 text-cyan-200">Minimal 1x trial</td>
+                <td colspan="2" class="p-1.5 border border-slate-800 text-slate-600 text-center">—</td>
+              </tr>
+              <!-- ZONA 5 -->
+              <tr class="bg-rose-950/20">
+                <td rowspan="7" class="p-2 border border-slate-800 align-top font-bold text-rose-300">Zona 5 –<br>Rip-rap</td>
+                <td rowspan="7" class="p-2 border border-slate-800 align-top text-center text-white font-bold">232.500</td>
+                <td class="p-1.5 border border-slate-800 text-slate-200">Analisa saringan</td>
+                <td class="p-1.5 border border-slate-800 text-cyan-200">1x uji per 50.000 m&sup3;</td>
+                <td class="p-1.5 border border-slate-800 text-slate-200">Metode penghamparan</td>
+                <td class="p-1.5 border border-slate-800 text-emerald-200">Tebal timbunan 50 cm</td>
+              </tr>
+              <tr>
+                <td class="p-1.5 border border-slate-800 text-slate-200">Kadar sulfur total</td>
+                <td class="p-1.5 border border-slate-800 text-cyan-200">1x uji per 25.000 m&sup3;</td>
+                <td colspan="2" class="p-1.5 border border-slate-800 text-slate-600 text-center">—</td>
+              </tr>
+              <tr>
+                <td class="p-1.5 border border-slate-800 text-slate-200">Pembentukan asam bersih (NAG) pH</td>
+                <td class="p-1.5 border border-slate-800 text-cyan-200">1x uji per 25.000 m&sup3;</td>
+                <td colspan="2" class="p-1.5 border border-slate-800 text-slate-600 text-center">—</td>
+              </tr>
+              <tr>
+                <td class="p-1.5 border border-slate-800 text-slate-200">Uji kandungan sulfide dan uji ketahanan sulfat</td>
+                <td class="p-1.5 border border-slate-800 text-cyan-200">1x uji Setiap quarry atau minimal 1x per 22.800 – 33.800 m&sup3;</td>
+                <td colspan="2" class="p-1.5 border border-slate-800 text-slate-600 text-center">—</td>
+              </tr>
+              <tr>
+                <td class="p-1.5 border border-slate-800 text-slate-200">Uji abrasi LA, variasi kekuatan basah/kering, uji klarifikasi ketahanan pelapukan</td>
+                <td class="p-1.5 border border-slate-800 text-cyan-200">1x uji Setiap quarry atau minimal 1x per 22.800 – 33.800 m&sup3;</td>
+                <td colspan="2" class="p-1.5 border border-slate-800 text-slate-600 text-center">—</td>
+              </tr>
+              <tr>
+                <td class="p-1.5 border border-slate-800 text-slate-200">DS sampel quarry + Uji Lab (Lab independen)<sup>**</sup></td>
+                <td class="p-1.5 border border-slate-800 text-cyan-200">1x uji Setiap quarry atau minimal 1x per 22.800 – 33.800 m&sup3;</td>
+                <td colspan="2" class="p-1.5 border border-slate-800 text-slate-600 text-center">—</td>
+              </tr>
+              <tr>
+                <td class="p-1.5 border border-slate-800 text-slate-200">Uji coba timbunan</td>
+                <td class="p-1.5 border border-slate-800 text-cyan-200">Minimal 1x trial</td>
+                <td colspan="2" class="p-1.5 border border-slate-800 text-slate-600 text-center">—</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="text-[9px] text-slate-500 space-y-1 pt-2 border-t border-slate-800">
+          <p><b class="text-amber-400">**</b> &nbsp;: Item uji laboratorium independen zona 2, Zona 3, Zona 5, Zona 6, zona 7 DS (terganggu). <b>Tabel 5.10</b></p>
+          <p><b class="text-amber-400">***</b> : Item uji laboratorium independen zona 4 DS (terganggu). <b>Tabel 5.11</b></p>
+        </div>
+      </div>
+
+      <div class="cmd-card p-4 sm:p-5 space-y-2" id="freqAnalysisBox">
+        <h3 class="text-xs font-bold text-cyan-300 flex items-center gap-2"><i class="fa-solid fa-microscope"></i> RINGKASAN &amp; CATATAN PROFESIONAL</h3>
+        <div id="freqAnalysisText" class="text-[11px] leading-relaxed text-slate-300 space-y-1.5"></div>
+      </div>
+
+    </section>
+
+
   </main>
 
   <!-- PRINTABLE AREA (FOR CLEAN PRINT) -->
@@ -2060,6 +2354,9 @@
       if (tabId === 'tabProctor' && chartProc) chartProc.resize();
       if (tabId === 'tabSchedule') {
         if (typeof gtkInitSchedule === 'function') gtkInitSchedule();
+      }
+      if (tabId === 'tabFreq') {
+        if (typeof freqRenderAnalysis === 'function') freqRenderAnalysis();
       }
       if (tabId === 'tabMulti') {
         renderMultiSampleChart();
@@ -4077,7 +4374,9 @@
         const s = currentSample;
         const q = txt.toLowerCase();
 
-        if (q.includes('jadwal') || q.includes('schedule')) {
+        if (q.includes('frekuensi') || q.includes('tabel 5.6') || q.includes('tabel 5.7') || q.includes('zona 1') || q.includes('zona 2') || q.includes('zona 3') || q.includes('zona 4') || q.includes('zona 5')) {
+          resp = `<b class="text-amber-300">TABEL 5.6 &amp; 5.7 — FREKUENSI PENGUJIAN TIMBUNAN</b><br>Zona 1 (material halus, 197.300 m³): 9 jenis uji sebelum penimbunan + 4 setelah. Zona 2 (Filter, 101.200 m³) &amp; Zona 3 (Transisi, 100.000 m³): fokus gradasi &amp; permeabilitas. Zona 4 (Random batu, 11.040.900 m³): Direct Shear Large Scale 3 elevasi + Crushing test. Zona 5 (Rip-rap, 232.500 m³): abrasi LA &amp; ketahanan sulfat. Buka <b>09. Frekuensi Uji Timbunan Zona 1-3</b> untuk tabel lengkap kelima zona + export PDF/Excel.`;
+        } else if (q.includes('jadwal') || q.includes('schedule')) {
           if (!gtkSchedData) gtkSchedData = gtkSchedLoad();
           const k = gtkSchedMetrics();
           const dev = k.dev, tested = k.tested;
@@ -4475,6 +4774,161 @@
     }
 
     window.gtkGetData = function () { return gtkSchedData; };
+
+    // --- MODUL TABEL 5.6: FREKUENSI PENGUJIAN KUALITAS TIMBUNAN ZONA 1-3 ---
+    const FREQ_DATA = {
+      zona1: {
+        nama: 'Zona 1 – Material berbutir halus', volume: 197300,
+        sebelum: [
+          ['Batas atterberg', '1x uji per 20.000 m³'],
+          ['Analisa saringan + hydrometer', '1x uji per 20.000 m³'],
+          ['Crumb test/Pinhole', '1x uji per 20.000 m³'],
+          ['Kadar Air', '1x uji per 20.000 m³'],
+          ['DS sampel borrow + Uji Lab (Lab independen)*', '1x 40.000 m³ uji Setiap borrow area'],
+          ['Uji coba timbunan', 'Minimal 1x trial'],
+          ['Kadar sulfat total', '1x uji per 40.000 m³'],
+          ['Pembentukan asam bersih (NAG) pH', '1x uji per 40.000 m³'],
+          ['Mineralogy Test (XRD)', '3 uji per 40.000 m³']
+        ],
+        setelah: [
+          ['Metode penghamparan', 'Tebal timbunan 30 cm'],
+          ['UDS sampel & Uji Lab (Lab independen)*', '1 sampel per 22.800 m³'],
+          ['Uji kepadatan & Kadar Air', '1x per 750 – 2.300 m³ atau Setiap layer'],
+          ['Uji permeabilitas', '1x per 750 – 2.300 m³ atau Setiap layer']
+        ]
+      },
+      zona23: {
+        nama: 'Zona 2 – Filter & Zona 3 – Transisi', volZona2: 101200, volZona3: 100000,
+        sebelum: [
+          ['Analisa saringan', '1x uji per 10.000 m³'],
+          ['Kadar sulfur total', '1x uji per 25.000 m³'],
+          ['Pembentukan asam bersih (NAG) pH', '1x uji per 25.000 m³'],
+          ['Uji permeabilitas', '1 sampel setiap quarry, atau minimal 6x uji dari total volume timbunan atau 1x per 22.800 – 33.800 m³'],
+          ['Uji kandungan sulfida dan ketahanan sulfat', '1 sampel setiap quarry, atau minimal 6x uji dari total volume timbunan atau 1x per 22.800 – 33.800 m³'],
+          ['Uji abrasi, variasi kekuatan basah/kering, uji klarifikasi ketahanan pelapukan', '1 sampel setiap quarry, atau minimal 6x uji dari total volume timbunan atau 1x per 22.800 – 33.800 m³'],
+          ['DS sampel quarry + Uji Lab (Lab independen)**', '1x uji Setiap quarry atau minimal 1x per 40.000 m³'],
+          ['Kepadatan relatif', '1x uji per quarry baru (meja getar)'],
+          ['Uji coba timbunan', 'Minimal 1x trial']
+        ],
+        setelah: [
+          ['Metode penghamparan', 'Tebal timbunan 30 cm'],
+          ['Kepadatan lapangan, Analisa Saringan & Kadar Air', '1x per 22.800 – 33.800 m³'],
+          ['Analisa Saringan', '1x per 22.800 – 33.800 m³'],
+          ['Uji permeabilitas dengan metode constant head', '1x per 22.800 – 33.800 m³']
+        ]
+      },
+      zona4: {
+        nama: 'Zona 4 – Random batu', volume: 11040900,
+        sebelum: [
+          ['Analisa saringan', '1x uji per 75.000 m³'],
+          ['Analisa saringan', '1x uji per 75.000 m³'],
+          ['Phinhole test', '1x uji per 10.000 m³'],
+          ['Kepadatan relatif', 'Minimal 1x uji'],
+          ['Kadar sulfur total', '1x uji per 150.000 m³'],
+          ['Uji abrasi LA, variasi kekuatan basah/kering', '1x uji Setiap quarry atau minimal 1x per 22.800 – 33.800 m³'],
+          ['Pembentukan asam bersih (NAG) pH', '1x uji per 150.000 m³'],
+          ['DS sampel quarry + Uji Lab (Lab independen)***', '1x uji Setiap quarry atau minimal 1x per 22.800 – 33.800 m³'],
+          ['Percobaan timbunan (kepadatan & Permeabilitas)', 'Minimal 1x trial']
+        ],
+        setelah: [
+          ['Metode penghamparan', 'Tebal timbunan 50 cm'],
+          ['Kepadatan & Kadar Air', '1x uji per 22.800 – 33.800 m³'],
+          ['Analisa saringan', '1x uji per 22.800 – 33.800 m³'],
+          ['Uji permeabilitas', '—'],
+          ['Direct Shear Large Scale', 'Elv. 1H/4: 3 Titik Uji, Elv. 2H/4: 3 Titik Uji, Elv. 3H/4: 3 Titik Uji'],
+          ['Crushing test', '—']
+        ]
+      },
+      zona5: {
+        nama: 'Zona 5 – Rip-rap', volume: 232500,
+        sebelum: [
+          ['Analisa saringan', '1x uji per 50.000 m³'],
+          ['Kadar sulfur total', '1x uji per 25.000 m³'],
+          ['Pembentukan asam bersih (NAG) pH', '1x uji per 25.000 m³'],
+          ['Uji kandungan sulfide dan uji ketahanan sulfat', '1x uji Setiap quarry atau minimal 1x per 22.800 – 33.800 m³'],
+          ['Uji abrasi LA, variasi kekuatan basah/kering, uji klarifikasi ketahanan pelapukan', '1x uji Setiap quarry atau minimal 1x per 22.800 – 33.800 m³'],
+          ['DS sampel quarry + Uji Lab (Lab independen)**', '1x uji Setiap quarry atau minimal 1x per 22.800 – 33.800 m³'],
+          ['Uji coba timbunan', 'Minimal 1x trial']
+        ],
+        setelah: [
+          ['Metode penghamparan', 'Tebal timbunan 50 cm']
+        ]
+      }
+    };
+
+    function freqRenderAnalysis() {
+      const box = document.getElementById('freqAnalysisText');
+      if (!box) return;
+      const z1 = FREQ_DATA.zona1, z23 = FREQ_DATA.zona23, z4 = FREQ_DATA.zona4, z5 = FREQ_DATA.zona5;
+      const totalVol = z1.volume + z23.volZona2 + z23.volZona3 + z4.volume + z5.volume;
+      let html = '';
+      html += '<p>Tabel 5.6 &amp; 5.7 mengatur frekuensi pengujian kualitas pekerjaan timbunan untuk lima zona material tubuh bendungan: <b class="text-amber-300">Zona 1 (' + z1.volume.toLocaleString('id-ID') + ' m³, material berbutir halus / inti kedap air)</b>, <b class="text-cyan-300">Zona 2 — Filter (' + z23.volZona2.toLocaleString('id-ID') + ' m³)</b>, <b class="text-cyan-300">Zona 3 — Transisi (' + z23.volZona3.toLocaleString('id-ID') + ' m³)</b>, <b class="text-purple-300">Zona 4 — Random batu (' + z4.volume.toLocaleString('id-ID') + ' m³)</b>, dan <b class="text-rose-300">Zona 5 — Rip-rap (' + z5.volume.toLocaleString('id-ID') + ' m³)</b>.</p>';
+      html += '<p>Total volume kelima zona: <b class="text-white">' + totalVol.toLocaleString('id-ID') + ' m³</b>, didominasi Zona 4 Random batu (' + (z4.volume / totalVol * 100).toFixed(1) + '% dari total) sebagai zona terbesar yang berfungsi sebagai struktur penahan utama (shell) bendungan.</p>';
+      html += '<p>Zona 1 memerlukan pengujian paling intensif per volume (9 jenis uji sebelum penimbunan) karena berfungsi sebagai lapisan kedap air utama — meliputi uji indeks (Atterberg, saringan+hydrometer), uji kimia (kadar sulfat, NAG pH, mineralogi XRD) dan dispersivitas (Crumb/Pinhole test) untuk memastikan tidak terjadi erosi internal (piping). Zona 2 &amp; 3 (filter/transisi) menekankan gradasi &amp; permeabilitas untuk fungsi drainase.</p>';
+      html += '<p>Zona 4 (Random batu) sebagai massa terbesar diuji dengan Direct Shear Large Scale pada 3 elevasi (1H/4, 2H/4, 3H/4) untuk verifikasi parameter kuat geser desain, serta Crushing test untuk daya tahan material terhadap pembebanan. Zona 5 (Rip-rap) sebagai lapisan pelindung lereng diuji abrasi LA &amp; ketahanan sulfat untuk durabilitas jangka panjang terhadap pelapukan.</p>';
+      html += '<p class="text-slate-400 text-[10px]"><b>*</b> Lab independen Zona 1 — UDS (tidak terganggu), Tabel 5.9. <b>**</b> Lab independen Zona 2/3/5/6/7 — DS (terganggu), Tabel 5.10. <b>***</b> Lab independen Zona 4 — DS (terganggu), Tabel 5.11. Seluruh frekuensi mengacu pada spesifikasi teknis QA/QC konstruksi bendungan tailing (TSF) sesuai pedoman GISTM 2020 dan ASTM.</p>';
+      box.innerHTML = html;
+    }
+
+    function freqExportPDF() {
+      try {
+        if (!window.jspdf || !window.jspdf.jsPDF) { if (typeof showToast === 'function') showToast('Library PDF belum siap.', 'error'); return; }
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF({ orientation: 'landscape' });
+        doc.setFontSize(13); doc.text('TABEL 5.6 FREKUENSI PENGUJIAN KUALITAS PEKERJAAN TIMBUNAN ZONA 1, 2 & 3', 14, 14);
+        doc.setFontSize(8); doc.text('Pad C Extension TSF Banyuwangi', 14, 19);
+        const z1 = FREQ_DATA.zona1, z23 = FREQ_DATA.zona23;
+        const bodyZ1 = [];
+        z1.sebelum.forEach((row, i) => bodyZ1.push([i === 0 ? z1.nama : '', i === 0 ? z1.volume.toLocaleString('id-ID') : '', row[0], row[1], (z1.setelah[i] ? z1.setelah[i][0] : ''), (z1.setelah[i] ? z1.setelah[i][1] : '')]));
+        doc.autoTable({ startY: 24, head: [['Material', 'Volume (m³)', 'Item Uji (Sebelum)', 'Frekuensi', 'Item Uji (Setelah)', 'Frekuensi']], body: bodyZ1, styles: { fontSize: 7 }, headStyles: { fillColor: [146, 64, 14] } });
+        let y = doc.lastAutoTable.finalY + 6;
+        const bodyZ23 = [];
+        z23.sebelum.forEach((row, i) => bodyZ23.push([i === 0 ? ('Zona 2: ' + z23.volZona2.toLocaleString('id-ID') + ' m³ / Zona 3: ' + z23.volZona3.toLocaleString('id-ID') + ' m³') : '', row[0], row[1], (z23.setelah[i] ? z23.setelah[i][0] : ''), (z23.setelah[i] ? z23.setelah[i][1] : '')]));
+        doc.autoTable({ startY: y, head: [['Material', 'Item Uji (Sebelum)', 'Frekuensi', 'Item Uji (Setelah)', 'Frekuensi']], body: bodyZ23, styles: { fontSize: 7 }, headStyles: { fillColor: [21, 94, 117] } });
+        y = doc.lastAutoTable.finalY + 6;
+        const z4 = FREQ_DATA.zona4, z5 = FREQ_DATA.zona5;
+        doc.setFontSize(10); doc.text('TABEL 5.7 — ZONA 4 (RANDOM BATU) & ZONA 5 (RIP-RAP)', 14, y); y += 4;
+        const bodyZ4 = z4.sebelum.map((row, i) => [i === 0 ? ('Zona 4: ' + z4.volume.toLocaleString('id-ID') + ' m³') : '', row[0], row[1], (z4.setelah[i] ? z4.setelah[i][0] : ''), (z4.setelah[i] ? z4.setelah[i][1] : '')]);
+        doc.autoTable({ startY: y, head: [['Material', 'Item Uji (Sebelum)', 'Frekuensi', 'Item Uji (Setelah)', 'Frekuensi']], body: bodyZ4, styles: { fontSize: 7 }, headStyles: { fillColor: [107, 33, 168] } });
+        y = doc.lastAutoTable.finalY + 6;
+        const bodyZ5 = z5.sebelum.map((row, i) => [i === 0 ? ('Zona 5: ' + z5.volume.toLocaleString('id-ID') + ' m³') : '', row[0], row[1], (z5.setelah[i] ? z5.setelah[i][0] : ''), (z5.setelah[i] ? z5.setelah[i][1] : '')]);
+        doc.autoTable({ startY: y, head: [['Material', 'Item Uji (Sebelum)', 'Frekuensi', 'Item Uji (Setelah)', 'Frekuensi']], body: bodyZ5, styles: { fontSize: 7 }, headStyles: { fillColor: [159, 18, 57] } });
+        y = doc.lastAutoTable.finalY + 6;
+        doc.setFontSize(7);
+        doc.text('* Lab independen zona 1 UDS (tidak terganggu). Tabel 5.9', 14, y);
+        doc.text('** Lab independen zona 2/3/5/6/7 DS (terganggu). Tabel 5.10   *** Lab independen zona 4 DS (terganggu). Tabel 5.11', 14, y + 4);
+        doc.text('Pengembang: Ir. Mohamad Hartadi (Adi) — WA 0822-3103-6047 • Blog newbieonline7.blogspot.com • Facebook m.hartadi', 14, y + 10);
+        doc.save('Tabel_5.6-5.7_Frekuensi_Pengujian_Timbunan.pdf');
+        if (typeof showToast === 'function') showToast('PDF Tabel 5.6 berhasil dibuat.', 'success');
+      } catch (e) { console.warn(e); if (typeof showToast === 'function') showToast('Gagal membuat PDF: ' + e.message, 'error'); }
+    }
+
+    function freqExportExcel() {
+      try {
+        if (typeof XLSX === 'undefined') { if (typeof showToast === 'function') showToast('Library Excel belum siap.', 'error'); return; }
+        const z1 = FREQ_DATA.zona1, z23 = FREQ_DATA.zona23;
+        const wb = XLSX.utils.book_new();
+        const rowsZ1 = [['TABEL 5.6 — ZONA 1 (' + z1.nama + ', Volume ' + z1.volume.toLocaleString('id-ID') + ' m³)'], [],
+          ['Item Uji (Sebelum Penimbunan)', 'Frekuensi Uji', 'Item Uji (Setelah Penimbunan)', 'Frekuensi Uji']];
+        z1.sebelum.forEach((row, i) => rowsZ1.push([row[0], row[1], (z1.setelah[i] ? z1.setelah[i][0] : ''), (z1.setelah[i] ? z1.setelah[i][1] : '')]));
+        XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(rowsZ1), 'Zona 1');
+        const rowsZ23 = [['TABEL 5.6 — ZONA 2 (Filter, ' + z23.volZona2.toLocaleString('id-ID') + ' m³) & ZONA 3 (Transisi, ' + z23.volZona3.toLocaleString('id-ID') + ' m³)'], [],
+          ['Item Uji (Sebelum Penimbunan)', 'Frekuensi Uji', 'Item Uji (Setelah Penimbunan)', 'Frekuensi Uji']];
+        z23.sebelum.forEach((row, i) => rowsZ23.push([row[0], row[1], (z23.setelah[i] ? z23.setelah[i][0] : ''), (z23.setelah[i] ? z23.setelah[i][1] : '')]));
+        XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(rowsZ23), 'Zona 2 & 3');
+        const z4x = FREQ_DATA.zona4, z5x = FREQ_DATA.zona5;
+        const rowsZ4 = [['TABEL 5.7 — ZONA 4 (' + z4x.nama + ', ' + z4x.volume.toLocaleString('id-ID') + ' m³)'], [],
+          ['Item Uji (Sebelum Penimbunan)', 'Frekuensi Uji', 'Item Uji (Setelah Penimbunan)', 'Frekuensi Uji']];
+        z4x.sebelum.forEach((row, i) => rowsZ4.push([row[0], row[1], (z4x.setelah[i] ? z4x.setelah[i][0] : ''), (z4x.setelah[i] ? z4x.setelah[i][1] : '')]));
+        XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(rowsZ4), 'Zona 4');
+        const rowsZ5 = [['TABEL 5.7 — ZONA 5 (' + z5x.nama + ', ' + z5x.volume.toLocaleString('id-ID') + ' m³)'], [],
+          ['Item Uji (Sebelum Penimbunan)', 'Frekuensi Uji', 'Item Uji (Setelah Penimbunan)', 'Frekuensi Uji']];
+        z5x.sebelum.forEach((row, i) => rowsZ5.push([row[0], row[1], (z5x.setelah[i] ? z5x.setelah[i][0] : ''), (z5x.setelah[i] ? z5x.setelah[i][1] : '')]));
+        XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(rowsZ5), 'Zona 5');
+        XLSX.writeFile(wb, 'Tabel_5.6-5.7_Frekuensi_Pengujian_Timbunan.xlsx');
+        if (typeof showToast === 'function') showToast('Excel Tabel 5.6 berhasil dibuat.', 'success');
+      } catch (e) { console.warn(e); if (typeof showToast === 'function') showToast('Gagal membuat Excel: ' + e.message, 'error'); }
+    }
 
     // --- 14. SCREENSAVER & MODALS ---
     function toggleScreensaver(show) {
